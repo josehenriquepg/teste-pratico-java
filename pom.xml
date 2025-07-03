@@ -14,6 +14,35 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- JSF API -->
+    <dependency>
+      <groupId>javax.faces</groupId>
+      <artifactId>javax.faces-api</artifactId>
+      <version>2.2</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- JSF Implementation (Mojarra) -->
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>javax.faces</artifactId>
+      <version>2.2.14</version>
+    </dependency>
+
+    <!-- PrimeFaces -->
+    <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>8.0</version>
+    </dependency>
+
+    <!-- PostgreSQL JDBC -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.7.2</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>teste-pratico</finalName>
