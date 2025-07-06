@@ -30,7 +30,7 @@ public class Product implements Serializable {
 	private String description;
 	
 	// Porcentagem de comissão sobre vendas
-	@Column(name = "percentage_commission", nullable = false, precision = 5, scale = 2)
+	@Column(name = "percentage_commission", precision = 5, scale = 2)
 	private BigDecimal percentageCommission;
 	
 	// Desconto máximo permitido
@@ -38,43 +38,35 @@ public class Product implements Serializable {
     private BigDecimal maxDescount;
     
     // Margem de lucro padrão
-	@Column(name = "standard_margin", nullable = false, precision = 5, scale = 2)
+	@Column(name = "standard_margin", precision = 5, scale = 2)
 	private BigDecimal standardMargin;
     
     // Letra de classificação do produto
-    @Column(name = "product_letter", nullable = false)
+    @Column(name = "product_letter")
     private String productLetter;
     
     // Cor do produto
-    @Column(name = "product_color", nullable = false)
+    @Column(name = "product_color")
     private String productColor;
     
     // Tipo/categoria do produto
-    @Column(name = "product_type", nullable = false)
+    @Column(name = "product_type")
     private String productType;
     
     // Data de cadastro do produto
-    @Column(name = "registration_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "registration_date")
+    @Temporal(TemporalType.DATE)
     private Date registrationDate;
- 
-    // Status ativo/inativo
-    @Column(name = "active", nullable = false)
-    private Boolean active;
     
     @PrePersist
     protected void onCreate() {
     	registrationDate = new Date();
     }
     
-    /**
-     * Construtor padrão
-     */
+    // Construtor padrão
     public Product() {}
     
-    /**
-     * Construtor com parâmetros principais
-     */
+    // Construtor com parâmetros principais
     public Product(String productCode, String description, BigDecimal percentageCommission, 
                    BigDecimal maxDescount, BigDecimal standardMargin, 
                    String productLetter, String productColor, String productType) {
@@ -168,14 +160,6 @@ public class Product implements Serializable {
     
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
-    }
-    
-    public Boolean getActive() {
-        return active;
-    }
-    
-    public void setActive(Boolean active) {
-        this.active = active;
     }
     
     @Override
