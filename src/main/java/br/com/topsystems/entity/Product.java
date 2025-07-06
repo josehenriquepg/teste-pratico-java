@@ -41,18 +41,6 @@ public class Product implements Serializable {
 	@Column(name = "standard_margin", precision = 5, scale = 2)
 	private BigDecimal standardMargin;
     
-    // Letra de classificação do produto
-    @Column(name = "product_letter")
-    private String productLetter;
-    
-    // Cor do produto
-    @Column(name = "product_color")
-    private String productColor;
-    
-    // Tipo/categoria do produto
-    @Column(name = "product_type")
-    private String productType;
-    
     // Data de cadastro do produto
     @Column(name = "registration_date")
     @Temporal(TemporalType.DATE)
@@ -76,9 +64,6 @@ public class Product implements Serializable {
         this.percentageCommission = percentageCommission;
         this.maxDescount = maxDescount;
         this.standardMargin = standardMargin;
-        this.productLetter = productLetter;
-        this.productColor = productColor;
-        this.productType = productType;
     }
  
     // Getters e Setters
@@ -128,30 +113,6 @@ public class Product implements Serializable {
     
     public void setStandardMargin(BigDecimal standardMargin) {
         this.standardMargin = standardMargin;
-    }
-    
-    public String getProductLetter() {
-        return productLetter;
-    }
-    
-    public void setProductLetter(String productLetter) {
-        this.productLetter = productLetter;
-    }
-    
-    public String getproductColor() {
-        return productColor;
-    }
-    
-    public void setProductColor(String productColor) {
-        this.productColor = productColor;
-    }
-    
-    public String getProductType() {
-        return productType;
-    }
-    
-    public void setProductType(String productType) {
-        this.productType = productType;
     }
     
     public Date getRegistrationDate() {

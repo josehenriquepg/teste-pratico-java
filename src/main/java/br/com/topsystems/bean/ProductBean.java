@@ -111,7 +111,7 @@ public class ProductBean implements Serializable {
         displayDialogFilter = true;
     }
     
-    public void aplicarFiltro() {
+    public void applyFilter() {
         try {
             if ((filterDescription == null || filterDescription.trim().isEmpty()) && 
                 (filterProductCode == null || filterProductCode.trim().isEmpty())) {
@@ -126,7 +126,7 @@ public class ProductBean implements Serializable {
         }
     }
     
-    public void limparFiltro() {
+    public void cleanFilter() {
         filterDescription = null;
         filterProductCode = null;
         filteredProducts = new ArrayList<>(products);

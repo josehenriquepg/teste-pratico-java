@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+      
+	<h:head>
+	    <title>Teste Prático - TopSystems</title>
+	    <style>
+	        .ui-layout-unit-content {
+	            padding: 10px !important;
+	        }
+	        
+	        .toolbar {
+	            margin-bottom: 10px;
+	        }
+	        
+	        .form-grid {
+	            width: 100%;
+	        }
+	        
+	        .form-grid .ui-fluid .ui-inputfield {
+	            width: 100%;
+	        }
+	        
+	        .dialog-content {
+	            min-width: 500px;
+	        }
+	        
+	        .button-panel {
+	            text-align: center;
+	            margin-top: 20px;
+	        }
+	        
+	        .header-title {
+	            font-size: 24px;
+	            font-weight: bold;
+	            color: #333;
+	            margin-bottom: 20px;
+	            text-align: center;
+	        }
+	    </style>
+	</h:head>
+	
+	<h:body>
+	    <f:view>
+	        <h:form id="form">
+	            
+	            <div class="header-title">
+	                <h:outputText value="Grupo de Produtos" />
+	            </div>
+	            
+	            <!-- Toolbar com botões -->
+	            <p:toolbar styleClass="toolbar">
+	                <p:toolbarGroup align="left">
+	                    <p:commandButton value="Inserir" 
+	                                   icon="ui-icon-plus" 
+	                                   action="#{productBean.newProduct}" 
+	                                   update=":form:dialogRegister"
+	                                   oncomplete="PF('dialogRegister').show()" />
+	                    
+	                    <p:commandButton value="Editar" 
+	                                   icon="ui-icon-pencil" 
+	                                   action="#{productBean.editProduct}"
+	                                   update=":form:dialogRegister"
+	                                   oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dialogRegister').show()" />
+	                    
+	                    <p:commandButton value="Excluir" 
+	                                   icon="ui-icon-trash" 
+	                                   action="#{productBean.deleteProduct}"
+	                                   update=":form:tableProducts :form:msgs"
+	                                   onclick="return confirm('Confirma a exclusão do produto selecionado?');" />
+	                    
+	                    <p:separator />
+	                    
+	                    <p:commandButton value="Procurar" 
+	                                   icon="ui-icon-search" 
+	                                   action="#{produtoBean.searchByDescription}"
+	                                   update=":form:tableProducts :form:msgs" />
+	                    
+	                    <p:inputText id="campoBusca" 
+	                               value="#{productBean.filterDescription}" 
+	                               placeholder="Digite o nome do produto..."
+	                               style="margin-left: 10px; width: 200px;" />
+	                    
+	                    <p:separator />
+	                    
+	                    <p:commandButton value="Filtro" 
+	                                   icon="ui-icon-gear" 
+	                                   action="#{productBean.openFilter}"
+	                                   update=":form:dialogFilter"
+	                                   oncomplete="PF('dialogFilter').show()" />
+	                   
+	                </p:toolbarGroup>
+	            </p:toolbar>
+	            
+	            <!-- Mensagens -->
+	            <p:messages id="msgs" autoUpdate="true" closable="true" />
+	            
+	            <!-- Tabela de produtos -->
+	            <p:dataTable id="tabelaProdutos" 
+	                        value="#{productBean.filteredProducts}" 
+	                        var="product"
+	                        selection="#{productBean.selectedProducts}"
+	                        selectionMode="single"
+	                        rowKey="#{product.id}"
+	                        paginator="true"
+	                        rows="10"
+	                        paginatorPosition="bottom"
+	                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	                        rowsPerPageTemplate="5,10,15,20"
+	                        emptyMessage="Nenhum produto encontrado">
+	                
+	                <p:column headerText="ID" width="50" style="text-align: center;">
+	                    <h:outputText value="#{product.id}" />
+	                </p:column>
+	                
+	                <p:column headerText="Código" sortBy="#{product.productCode}" filterBy="#{product.productCode}" filterMatchMode="contains">
+	                    <h:outputText value="#{product.productCode}" />
+	                </p:column>
+	                
+	                <p:column headerText="Descrição" width="250" sortBy="#{product.description}" filterBy="#{product.description}" filterMatchMode="exact">
+	                    <h:outputText value="#{product.description}" />
+	                </p:column>
+	                
+	                <p:column headerText="Data Cadastro" width="120" style="text-align: center;">
+	                    <h:outputText value="#{product.registrationDate}">
+	                        <f:convertDateTime pattern="dd/MM/yyyy" />
+	                    </h:outputText>
+	                </p:column>
+	            </p:dataTable>
+	            
+	            <!-- Dialog de Cadastro/Edição -->
+	            <p:dialog id="dialogRegister" 
+	                     widgetVar="dialogRegister" 
+	                     header="#{productBean.editProduct ? 'Editar Produto' : 'Novo Produto'}"
+	                     modal="true" 
+	                     resizable="false"
+	                     closable="true">
+	                
+	                <div class="dialog-content">
+	                    <h:panelGrid columns="2" cellpadding="5" styleClass="form-grid">
+	                        
+	                        <h:outputLabel for="productCode" value="Código:" />
+	                        <p:inputText id="productCode" 
+	                                   value="#{productBean.product.productCode}" 
+	                                   required="true"
+	                                   requiredMessage="Código é obrigatório"
+	                                   maxlength="20"
+	                                   style="width: 100%;" />
+	                        
+	                        <h:outputLabel for="description" value="Descrição:" />
+	                        <p:inputTextarea id="description" 
+	                                       value="#{productBean.product.description}" 
+	                                       rows="3"
+	                                       maxlength="100"
+	                                       style="width: 100%;" />
+	                       
+	                    </h:panelGrid>
+	                    
+	                    <div class="button-panel">
+	                        <p:commandButton value="Salvar" 
+	                                       icon="ui-icon-disk" 
+	                                       action="#{productBean.saveProduct}"
+	                                       update=":form:tableProducts :form:msgs"
+	                                       oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dialogRegister').hide()" />
+	                        
+	                        <p:commandButton value="Cancelar" 
+	                                       icon="ui-icon-close" 
+	                                       action="#{productBean.cancelEdit}"
+	                                       immediate="true"
+	                                       onclick="PF('dialogRegister').hide()"
+	                                       style="margin-left: 10px;" />
+	                    </div>
+	                </div>
+	            </p:dialog>
+	            
+	            <!-- Dialog de Filtro -->
+	            <p:dialog id="dialogFilter" 
+	                     widgetVar="dialogFilter" 
+	                     header="Filtrar Produtos"
+	                     modal="true" 
+	                     resizable="false"
+	                     closable="true">
+	                
+	                <div class="dialog-content">
+	                    <h:panelGrid columns="2" cellpadding="5" styleClass="form-grid">
+	                        
+	                        <h:outputLabel for="filterProductCode" value="Código:" />
+	                        <p:inputText id="filterProductCode" 
+	                                   value="#{productBean.filterProductCode}" 
+	                                   placeholder="Digite o código..."
+	                                   style="width: 100%;" />
+	                        
+	                        <h:outputLabel for="filterDescription" value="Descrição:" />
+	                        <p:autoComplete id="filterDescription"
+	                                      value="#{productBean.filterDescription}"
+	                                      placeholder="Digite a descrição do produto..."
+	                                      style="width: 100%;" />
+	   
+	                    </h:panelGrid>
+	                    
+	                    <div class="button-panel">
+	                        <p:commandButton value="Aplicar" 
+	                                       icon="ui-icon-check" 
+	                                       action="#{productBean.applyFilter}"
+	                                       update=":form:tableProducts :form:msgs"
+	                                       oncomplete="PF('dialogFilter').hide()" />
+	                        
+	                        <p:commandButton value="Limpar" 
+	                                       icon="ui-icon-refresh" 
+	                                       action="#{productBean.clearFilter}"
+	                                       update=":form:tableProducts :form:msgs"
+	                                       oncomplete="PF('dialogFilter').hide()"
+	                                       style="margin-left: 10px;" />
+	                        
+	                        <p:commandButton value="Cancelar" 
+	                                       icon="ui-icon-close" 
+	                                       action="#{productBean.cancelEdit}"
+	                                       immediate="true"
+	                                       onclick="PF('dialogFilter').hide()"
+	                                       style="margin-left: 10px;" />
+	                    </div>
+	                </div>
+	            </p:dialog>
+	            
+	        </h:form>
+	    </f:view>
+	</h:body>
+</html>
