@@ -7,7 +7,7 @@
 	<persistence-unit name="produtos-pu" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		    
-		<class>br.com.topsystems.entity.Produto</class>
+		<class>br.com.topsystems.entity.Product</class>
 		    
 		<properties>
 			<!-- Configuração do banco PostgreSQL -->
