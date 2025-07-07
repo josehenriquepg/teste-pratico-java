@@ -1,4 +1,4 @@
-CREATE DATABASE products_db
+CREATE DATABASE produtos_db
     WITH 
     OWNER = postgres
     ENCODING = 'UTF8'
@@ -14,13 +14,13 @@ CREATE TABLE products (
     registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_product_code ON products(product_code);
-CREATE INDEX idx_description ON products(description);
+CREATE INDEX idx_codigo ON produtos(codigo);
+CREATE INDEX idx_descricao ON produtos(descricao);
 
-INSERT INTO products (product_code, description) VALUES
+INSERT INTO produtos (codigo, descricao) VALUES
 ('34','FRALDAS'),
 ('20','COTONETES'),
 ('12','DIPIRONA'),
 ('08','XAROPE');
 
-SELECT * FROM products ORDER BY description;
+SELECT * FROM produtos ORDER BY descricao;
