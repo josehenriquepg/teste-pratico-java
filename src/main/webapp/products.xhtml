@@ -11,6 +11,7 @@
 	
 	<h:body>
 		<h:form id="formProduto">
+			
         
         <!-- Barra de ferramentas -->
         <p:toolbar>
@@ -31,7 +32,7 @@
                 <p:commandButton value="Último" icon="pi pi-step-forward" />
                 <p:commandButton value="Procurar" 
                 								 icon="pi pi-search" 
-                								 actionListener="#{produtoBean.carregarPesquisa}"
+                								 outcome="/produtoPesquisa.xhtml"
                 								 update="@form" />
                 <p:commandButton value="Filtrar" 
                 								 icon="pi pi-filter"

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	<h:form>
+			<p:toolbar>
+				<f:facet name="left">
+					<h:outputText value="Produtos" />
+				</f:facet>
+			</p:toolbar>
+			<p:separator />
+			
+			<p:dataTable emptyMessage="Nenhum Produto Encontrado"
+				value="#{produtoBean.listaProduto}"
+				filteredValue="#{produtoBean.listaProdutoFiltrados}" var="produto"
+				rows="10" paginator="true">
+
+				<f:facet name="footer">
+					<p:button value="Novo"
+						outcome="/produtoCadastro.xhtml?faces-redirect=true">
+						<f:param name="prodAcao" value="Novo" />
+					</p:button>
+				</f:facet>
+
+				<p:column headerText="Código" style="width: 5%">
+					<h:outputText value="#{produto.codigo}" />
+				</p:column>
+
+				<p:column headerText="Descrição" style="width: 30%" filterBy="#{produto.descricao}"
+					sortBy="#{produto.descricao}">
+					<h:outputText value="#{produto.descricao}" />
+				</p:column>
+
+				<p:column headerText="Opção" style="width: 15%">
+					<p:button value="Editar"
+						outcome="/produtoCadastro.xhtml?faces-redirect=true">
+						<f:param name="prodId" value="#{produto.codigo}" />
+						<f:param name="prodAcao" value="Editar" />
+					</p:button>
+					<p:button value="Excluir"
+						outcome="/produtoCadastro.xhtml?faces-redirect=true">
+						<f:param name="prodId" value="#{produto.codigo}" />
+						<f:param name="prodAcao" value="Excluir" />
+					</p:button>
+				</p:column>
+			</p:dataTable>
+	</h:form>
+</html>
