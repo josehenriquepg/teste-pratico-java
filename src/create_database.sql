@@ -7,11 +7,10 @@ CREATE DATABASE produtos_db
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
 
-CREATE TABLE products (
+CREATE TABLE produtos (
     id BIGSERIAL PRIMARY KEY,
-    product_code VARCHAR(20) NOT NULL,
-    description VARCHAR(100),
-    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    codigo VARCHAR(20) NOT NULL,
+    descricao VARCHAR(100)
 );
 
 CREATE INDEX idx_codigo ON produtos(codigo);
