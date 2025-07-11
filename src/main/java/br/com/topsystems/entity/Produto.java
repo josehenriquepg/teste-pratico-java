@@ -22,29 +22,30 @@ public class Produto {
 	@Size(min = 1, max = 20)
 	@Column(name = "codigo", length = 20, nullable = false)
 	private String codigo;
-	
+
 	// Descrição do produto
-	@Size( min = 3, max = 100)
+	@Size(min = 3, max = 100)
 	@Column(name = "descricao", length = 100, nullable = false)
 	private String descricao;
-	
+
 	// Porcentagem de comissão sobre vendas
 	@Column(name = "comissao", precision = 5, scale = 2)
 	private BigDecimal comissao;
-		
+
 	// Desconto máximo permitido
 	@Column(name = "desconto_max", precision = 5, scale = 2)
-    private BigDecimal descontoMax;
-	    
+	private BigDecimal descontoMax;
+
 	// Margem de lucro padrão
 	@Column(name = "margem_lucro", precision = 5, scale = 2)
 	private BigDecimal margemLucro;
 
 	public Produto() {
-		
+
 	}
-	
-	public Produto(String codigo, String descricao, BigDecimal comissao, BigDecimal descontoMax, BigDecimal margemLucro) {
+
+	public Produto(String codigo, String descricao, BigDecimal comissao, BigDecimal descontoMax,
+			BigDecimal margemLucro) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 		this.comissao = comissao;

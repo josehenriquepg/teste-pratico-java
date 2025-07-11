@@ -1,98 +1,106 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-      
-	<h:head>
-	    <title>Teste Prático - TopSystems</title>
-	</h:head>
-	
-	<h:body>
-		<h:form id="formProduto">
-			
-        
-        <!-- Barra de ferramentas -->
-        <p:toolbar>
-            <f:facet name="left">
-                <p:commandButton value="Inserir" 
-                								 icon="pi pi-plus" 
-                								 actionListener="#{produtoBean.novo}"
-                								 update="@form" />
-                <p:commandButton value="Editar" 
-                								 icon="pi pi-pencil" 
-                								 actionListener="#{produtoBean.editar}"
-                								 update="@form" />
-                <p:commandButton value="Voltar" icon="pi pi-arrow-left" />
-                <p:commandButton value="Confirmar" icon="pi pi-check" />
-                <p:commandButton value="Primeiro" icon="pi pi-step-backward" />
-                <p:commandButton value="Anterior" icon="pi pi-backward" />
-                <p:commandButton value="Próximo" icon="pi pi-forward" />
-                <p:commandButton value="Último" icon="pi pi-step-forward" />
-                <p:commandButton value="Procurar" 
-                								 icon="pi pi-search" 
-                								 outcome="/produtoPesquisa.xhtml"
-                								 update="@form" />
-                <p:commandButton value="Filtrar" 
-                								 icon="pi pi-filter"
-                								 actionListener="#{produtoBean.listaProdutoFiltrados}" />
-                <p:commandButton value="Relatório" icon="pi pi-file" />
-                <p:commandButton value="Form/Grid" 
-                								 icon="pi pi-table" />
-                <p:commandButton value="Fechar" icon="pi pi-times" />
-            </f:facet>
-        </p:toolbar>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-        <p:spacer height="10" />
+<h:head>
+	<title>Teste Prático - TopSystems</title>
+</h:head>
 
-        <!-- Painel principal do formulário -->
-        <p:panel header="Cadastro de Produtos">
-            
-            <!-- Primeira linha - Código e Descrição -->
-            <p:panelGrid columns="4" layout="grid">
-                <p:outputLabel value="Código:" />
-                <p:inputText id="codigo" size="20" value="#{produtoBean.produto.codigo}" />
-                
-                <p:outputLabel value="Descrição:" />
-                <p:inputText id="descricao" size="20" value="#{produtoBean.produto.descricao}" />
-            </p:panelGrid>
+<h:body>
+	<h:form id="barraDeFerramentas">
+		<p:toolbar>
+			<p:toolbarGroup align="left">
+				<p:commandButton value="Inserir"
+					actionListener="#{produtoBean.novo}" update="@form" />
 
-            <p:spacer height="10" />
+				<p:commandButton value="Editar"
+					actionListener="#{produtoBean.editar}" update="@form" />
 
-            <!-- Segunda linha - Comissão, Desc. Máximo, Margem Padrão -->
-            <p:panelGrid columns="6" layout="grid" >
-                <p:outputLabel value="Comissão(%):" />
-                <p:inputText id="comissao" value="0,00" size="10"/>
-                
-                <p:outputLabel value="Desc. Máximo:" />
-                <p:inputText id="descMaximo" value="0,00" size="10"/>
-                
-                <p:outputLabel value="Margem Padrão:" />
-                <p:inputText id="margemLucro" value="0,00" size="10"/>
-            </p:panelGrid>
+				<p:commandButton value="Voltar" />
 
-            <p:spacer height="10" />
+				<p:commandButton value="Confirmar" />
 
-            <!-- Terceira linha - Letras, Cor, Tipo -->
-            <p:panelGrid columns="6" layout="grid" >
-                <p:outputLabel value="Letras:" for="letras" />
-                <p:selectOneMenu id="letras" value="nenhum" style="width:120px">
-                    <f:selectItem itemLabel="nenhum" itemValue="nenhum" />
-                </p:selectOneMenu>
-                
-                <p:outputLabel value="Cor:" for="cor" />
-                <p:selectOneMenu id="cor" value="nenhum" style="width:120px">
-                    <f:selectItem itemLabel="nenhum" itemValue="nenhum" />
-                </p:selectOneMenu>
-                
-                <p:outputLabel value="Tipo:" for="tipo" />
-                <p:selectOneMenu id="tipo" value="nenhum" style="width:120px">
-                    <f:selectItem itemLabel="nenhum" itemValue="nenhum" />
-                </p:selectOneMenu>
-            </p:panelGrid>
+				<p:commandButton value="Primeiro" />
 
-        </p:panel>
-		</h:form>
+				<p:commandButton value="Anterior" />
+
+				<p:commandButton value="Próximo" />
+
+				<p:commandButton value="Último" />
+
+				<p:commandButton value="Procurar" type="button"
+					outcome="pages/produtoPesquisa.xhtml" update="@form" />
+
+				<p:commandButton value="Filtrar"
+					actionListener="#{produtoBean.listaProdutoFiltrados}" />
+
+				<p:commandButton value="Relatório" />
+
+				<p:commandButton value="Form/Grid" />
+
+				<p:commandButton value="Fechar" />
+			</p:toolbarGroup>
+		</p:toolbar>
+	</h:form>
+
+	<p:spacer height="10" />
+
+	<p:dialog header="Procurar Dialog" widgetVar="dlg1" minHeight="40">
+		<h:outputText value="Resistance to PrimeFaces is futile!" />
+	</p:dialog>
+
+	<!-- Painel principal do formulário -->
+	<p:panel header="Cadastro de Produtos">
+
+		<!-- Primeira linha - Código e Descrição -->
+		<p:panelGrid columns="4" layout="grid">
+			<p:outputLabel value="Código:" />
+			<p:inputText id="codigo" size="20"
+				value="#{produtoBean.produto.codigo}" />
+
+			<p:outputLabel value="Descrição:" />
+			<p:inputText id="descricao" size="20"
+				value="#{produtoBean.produto.descricao}" />
+		</p:panelGrid>
+
+		<p:spacer height="10" />
+
+		<!-- Segunda linha - Comissão, Desc. Máximo, Margem Padrão -->
+		<p:panelGrid columns="6" layout="grid">
+			<p:outputLabel value="Comissão(%):" />
+			<p:inputText id="comissao" value="0,00" size="10" />
+
+			<p:outputLabel value="Desc. Máximo:" />
+			<p:inputText id="descMaximo" value="0,00" size="10" />
+
+			<p:outputLabel value="Margem Padrão:" />
+			<p:inputText id="margemLucro" value="0,00" size="10" />
+		</p:panelGrid>
+
+		<p:spacer height="10" />
+
+		<!-- Terceira linha - Letras, Cor, Tipo -->
+		<p:panelGrid columns="6" layout="grid">
+			<p:outputLabel value="Letras:" for="letras" />
+			<p:selectOneMenu id="letras" value="nenhum" style="width:120px">
+				<f:selectItem itemLabel="nenhum" itemValue="nenhum" />
+			</p:selectOneMenu>
+
+			<p:outputLabel value="Cor:" for="cor" />
+			<p:selectOneMenu id="cor" value="nenhum" style="width:120px">
+				<f:selectItem itemLabel="nenhum" itemValue="nenhum" />
+			</p:selectOneMenu>
+
+			<p:outputLabel value="Tipo:" for="tipo" />
+			<p:selectOneMenu id="tipo" value="nenhum" style="width:120px">
+				<f:selectItem itemLabel="nenhum" itemValue="nenhum" />
+			</p:selectOneMenu>
+		</p:panelGrid>
+
+	</p:panel>
+
 </h:body>
 </html>

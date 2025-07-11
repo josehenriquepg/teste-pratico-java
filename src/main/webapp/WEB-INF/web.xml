@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         version="3.0">
+	version="3.0">
 
-    <display-name>Cadastro de Produtos - TopSystems</display-name>
+	<display-name>Cadastro de Produtos - TopSystems</display-name>
 
-    <!-- Configuração do JSF -->
-    <context-param>
-        <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>server</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-        <param-value>.xhtml</param-value>
-    </context-param>
-    
-    <context-param>
-        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    
-    <!-- Configuração do PrimeFaces -->
-    
-    <context-param>
-        <param-name>primefaces.FONT_AWESOME</param-name>
-        <param-value>true</param-value>
-    </context-param>
+	<!-- Configuração do JSF -->
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
 
-    <!-- Servlet do JSF -->
-    <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
 
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/*</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.jsf</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.xhtml</url-pattern>
-    </servlet-mapping>
+	<context-param>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.xhtml</param-value>
+	</context-param>
 
-    <!-- Página inicial -->
-    <welcome-file-list>
-        <welcome-file>products.xhtml</welcome-file>
-    </welcome-file-list>
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
 
-    <!-- Configuração de sessão -->
-    <session-config>
-        <session-timeout>30</session-timeout>
-    </session-config>
+	<!-- Configuração do PrimeFaces -->
 
-    <!-- Configuração de MIME types -->
-    <mime-mapping>
-        <extension>xhtml</extension>
-        <mime-type>application/xhtml+xml</mime-type>
-    </mime-mapping>
+	<context-param>
+		<param-name>primefaces.FONT_AWESOME</param-name>
+		<param-value>true</param-value>
+	</context-param>
+
+	<!-- Servlet do JSF -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+
+	<!-- Página inicial -->
+	<welcome-file-list>
+		<welcome-file>/products.xhtml</welcome-file>
+	</welcome-file-list>
+
+	<!-- Configuração de sessão -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<!-- Configuração de MIME types -->
+	<mime-mapping>
+		<extension>xhtml</extension>
+		<mime-type>application/xhtml+xml</mime-type>
+	</mime-mapping>
 
 </web-app>

@@ -9,7 +9,7 @@ import br.com.topsystems.dao.ProdutoDAO;
 import br.com.topsystems.entity.Produto;
 import br.com.topsystems.util.FacesUtil;
 
-@ManagedBean
+@ManagedBean(name = "produtoBean")
 @ViewScoped
 public class ProdutoBean {
 	private Produto produto;
@@ -17,42 +17,51 @@ public class ProdutoBean {
 	private List<Produto> listaProdutoFiltrados;
 	private String acao;
 	private Long id;
-	
+
 	public Produto getProduto() {
 		return produto;
 	}
+
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
+
 	public List<Produto> getListaProduto() {
 		return listaProduto;
 	}
+
 	public void setListaProduto(List<Produto> listaProduto) {
 		this.listaProduto = listaProduto;
 	}
+
 	public List<Produto> getListaProdutoFiltrados() {
 		return listaProdutoFiltrados;
 	}
+
 	public void setListaProdutoFiltrados(List<Produto> listaProdutoFiltrados) {
 		this.listaProdutoFiltrados = listaProdutoFiltrados;
 	}
+
 	public String getAcao() {
 		return acao;
 	}
+
 	public void setAcao(String acao) {
 		this.acao = acao;
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public void novo() {
 		produto = new Produto();
 	}
-	
+
 	public void salvar() {
 		try {
 			ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -64,7 +73,7 @@ public class ProdutoBean {
 			FacesUtil.adicionarMensagemErro("Erro ao tentar incluir um Produto: " + ex.getMessage());
 		}
 	}
-	
+
 	public void carregarPesquisa() {
 		try {
 			ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -73,7 +82,7 @@ public class ProdutoBean {
 			FacesUtil.adicionarMensagemErro("Erro ao Listar os Produtos: " + ex.getMessage());
 		}
 	}
-	
+
 	public void excluir() {
 		try {
 			ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -83,7 +92,7 @@ public class ProdutoBean {
 			FacesUtil.adicionarMensagemErro("Erro ao tentar remover um Produto: " + ex.getMessage());
 		}
 	}
-	
+
 	public void editar() {
 		try {
 			ProdutoDAO produtoDAO = new ProdutoDAO();
