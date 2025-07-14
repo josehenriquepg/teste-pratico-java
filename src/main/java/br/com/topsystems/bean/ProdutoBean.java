@@ -1,7 +1,9 @@
 package br.com.topsystems.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -14,6 +16,7 @@ import br.com.topsystems.util.FacesUtil;
 public class ProdutoBean {
 	private Produto produto;
 	private Produto produtoSelecionado;
+	private Produto produtoNovo;
 	private String termoPesquisa;
 	private Filtro filtro;
 	private List<Produto> listaProduto;
@@ -22,6 +25,17 @@ public class ProdutoBean {
 	private boolean modoEdicao;
 	private ProdutoDAO produtoDAO;
 
+	@PostConstruct
+    public void init() {
+        listaProduto = new ArrayList<>();
+        listaProdutoFiltrados = new ArrayList<>();
+        setProdutoNovo(new Produto());
+        filtro = new Filtro();
+        termoPesquisa = "";
+        
+        listaProdutoFiltrados.addAll(listaProduto);
+    }
+	
 	public void novo() {
 		produto = new Produto();
 	}
@@ -78,8 +92,15 @@ public class ProdutoBean {
 
 	public void excluir() {
 		try {
-			ProdutoDAO produtoDAO = new ProdutoDAO();
-			produtoDAO.excluir(produto);
+			if (produtoSelecionado == null) {
+				FacesUtil.adicionarMensagemInfo("Erro: Nenhum produto selecionado.");
+                return;
+            }
+            
+            listaProduto.removeIf(p -> p.getCodigo().equals(produtoSelecionado.getCodigo()));
+            listaProdutoFiltrados.removeIf(p -> p.getCodigo().equals(produtoSelecionado.getCodigo()));
+            
+            produtoSelecionado = null;
 			FacesUtil.adicionarMensagemInfo("Produto Removido com Sucesso");
 		} catch (RuntimeException ex) {
 			FacesUtil.adicionarMensagemErro("Erro ao tentar remover um Produto: " + ex.getMessage());
@@ -88,8 +109,21 @@ public class ProdutoBean {
 
 	public void editar() {
 		try {
-			ProdutoDAO produtoDAO = new ProdutoDAO();
-			produtoDAO.editar(produto);
+			if (produtoSelecionado == null) {
+				FacesUtil.adicionarMensagemInfo( "Erro: Nenhum produto selecionado.");
+                return;
+            }
+            
+            if (produtoSelecionado.getDescricao() == null || produtoSelecionado.getDescricao().trim().isEmpty()) {
+            	FacesUtil.adicionarMensagemInfo("Erro de validação: Descrição é obrigatória.");
+                return;
+            }
+            
+            listaProdutoFiltrados.stream()
+                .filter(p -> p.getCodigo().equals(produtoSelecionado.getCodigo()))
+                .findFirst()
+                .ifPresent(p -> p.setDescricao(produtoSelecionado.getDescricao()));
+            
 			FacesUtil.adicionarMensagemInfo("Produto Editado com Sucesso");
 		} catch (RuntimeException ex) {
 			FacesUtil.adicionarMensagemErro("Erro ao tentar editar um Produto: " + ex.getMessage());
@@ -150,6 +184,14 @@ public class ProdutoBean {
 
 	public void setListaProdutoFiltrados(List<Produto> listaProdutoFiltrados) {
 		this.listaProdutoFiltrados = listaProdutoFiltrados;
+	}
+
+	public Produto getProdutoNovo() {
+		return produtoNovo;
+	}
+
+	public void setProdutoNovo(Produto produtoNovo) {
+		this.produtoNovo = produtoNovo;
 	}
 
 	public static class Filtro {

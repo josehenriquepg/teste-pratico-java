@@ -14,10 +14,9 @@
 		<p:toolbar>
 			<p:toolbarGroup align="left">
 				<p:commandButton value="Inserir"
-					actionListener="#{produtoBean.novo}" update="tabelaProdutos" />
+					onclick="PF('dialogInserir').show();" />
 
-				<p:commandButton value="Editar"
-					actionListener="#{produtoBean.editar}" update="tabelaProdutos" />
+				<p:commandButton value="Editar" onclick="PF('dialogEditar').show();" />
 
 				<p:commandButton value="Procurar" type="button"
 					onclick="PF('dialogPesquisar').show();" />
@@ -30,25 +29,81 @@
 
 	<p:spacer height="10" />
 
+	<!-- Dialog inserir -->
+	<p:dialog header="Inserir Produto" widgetVar="dialogInserir"
+		modal="true" width="1000" height="650" resizable="false">
+		<p:panelGrid columns="2" style="width: 100%;">
+			<p:outputLabel for="inserirCodigo" value="Código:" />
+			<p:inputText id="inserirCodigo"
+				value="#{produtoBean.produtoNovo.codigo}" style="width: 300px;"
+				required="true" requiredMessage="Código é obrigatório" />
+
+			<p:outputLabel for="inserirDescricao" value="Descrição:" />
+			<p:inputText id="inserirDescricao"
+				value="#{produtoBean.produtoNovo.descricao}" style="width: 300px;"
+				required="true" requiredMessage="Descrição é obrigatória" />
+		</p:panelGrid>
+		
+		<p:spacer height="10" />
+
+		<div style="text-align: center;">
+			<p:commandButton value="Salvar" action="#{produtoBean.salvar}"
+				oncomplete="PF('dialogInserir').hide();" />
+
+			<p:commandButton value="Cancelar"
+				onclick="PF('dialogInserir').hide();" style="margin-left: 10px;"
+				immediate="true" />
+		</div>
+	</p:dialog>
+
+	<!-- Dialog Editar -->
+	<p:dialog header="Editar Produto" widgetVar="dialogEditar" modal="true"
+		width="1000" height="650" resizable="false">
+		<p:panelGrid columns="2" style="width: 100%;">
+			<p:outputLabel for="editarCodigo" value="Código:" />
+			<p:inputText id="editarCodigo"
+				value="#{produtoBean.produtoSelecionado.codigo}"
+				style="width: 300px;" readonly="true" />
+
+			<p:outputLabel for="editarDescricao" value="Descrição:" />
+			<p:inputText id="editarDescricao"
+				value="#{produtoBean.produtoSelecionado.descricao}"
+				style="width: 300px;" />
+		</p:panelGrid>
+
+		<p:spacer height="10" />
+		
+		<div style="text-align: center;">
+			<p:commandButton value="Salvar" action="#{produtoBean.editar}"
+				oncomplete="PF('dialogEditar').hide();" />
+
+			<p:commandButton value="Cancelar"
+				onclick="PF('dialogEditar').hide();" style="margin-left: 10px;"
+				immediate="true" />
+		</div>
+	</p:dialog>
+
 	<!-- Dialog Pesquisar -->
 	<p:dialog header="Pesquisar Produto" widgetVar="dialogPesquisar"
 		modal="true" width="1000" height="650" resizable="false">
 		<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
 			<p:outputLabel for="pesquisaDescricao" value="Descrição/Nome:" />
-			<p:inputText id="pesquisaDescricao" 
+			<p:inputText id="pesquisaDescricao"
 				placeholder="Digite a descrição para pesquisar..."
 				style="width: 750px;" />
 		</p:panelGrid>
 
 		<p:spacer height="10" />
 
-		<p:commandButton value="Pesquisar"
-			action="#{produtoBean.carregarPesquisa}" update="tabelaProdutos" />
+		<div style="text-align: center;">
+			<p:commandButton value="Pesquisar"
+				action="#{produtoBean.carregarPesquisa}" update="tabelaProdutos" />
 
-		<p:spacer width="10" />
+			<p:spacer width="10" />
 
-		<p:commandButton value="Cancelar"
-			onclick="PF('dialogPesquisar').hide();" type="button" />
+			<p:commandButton value="Cancelar"
+				onclick="PF('dialogPesquisar').hide();" type="button" />
+		</div>
 
 		<p:separator />
 
@@ -65,6 +120,50 @@
 				<h:outputText value="#{produto.descricao}" />
 			</p:column>
 		</p:dataTable>
+	</p:dialog>
+
+	<!-- Dialog Filtrar -->
+	<p:dialog header="Filtrar Produtos" widgetVar="dialogFiltrar"
+		modal="true" width="1000" height="600" resizable="false">
+		<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+			<p:outputLabel for="filtroCampo" value="Campo:" />
+			<p:selectOneMenu id="filtroCampo" style="width: 200px;">
+				<f:selectItem itemLabel="Selecione..." itemValue="" />
+				<f:selectItem itemLabel="Código" itemValue="codigo" />
+				<f:selectItem itemLabel="Descrição" itemValue="descricao" />
+			</p:selectOneMenu>
+
+			<p:outputLabel for="filtroComparacao" value="Comparação:" />
+			<p:selectOneMenu id="filtroComparacao" style="width: 200px;">
+				<f:selectItem itemLabel="Selecione..." itemValue="" />
+				<f:selectItem itemLabel="Igual a" itemValue="igual" />
+				<f:selectItem itemLabel="Contém" itemValue="contem" />
+				<f:selectItem itemLabel="Inicia com" itemValue="inicia" />
+				<f:selectItem itemLabel="Termina com" itemValue="termina" />
+				<f:selectItem itemLabel="Maior que" itemValue="maior" />
+				<f:selectItem itemLabel="Menor que" itemValue="menor" />
+			</p:selectOneMenu>
+
+			<p:outputLabel for="filtroValor" value="Valor:" />
+			<p:inputText id="filtroValor" style="width: 750px;" />
+		</p:panelGrid>
+		
+		<p:spacer height="10" />
+
+		<div style="text-align: center;">
+			<p:commandButton value="Aplicar Filtro" update="tabelaProdutos"
+				oncomplete="PF('dialogFiltrar').hide();" />
+
+			<p:spacer width="10" />
+
+			<p:commandButton value="Limpar Filtro" update="tabelaProdutos"
+				oncomplete="PF('dialogFiltrar').hide();" />
+
+			<p:spacer width="10" />
+
+			<p:commandButton value="Cancelar"
+				onclick="PF('dialogFiltrar').hide();" type="button" />
+		</div>
 	</p:dialog>
 
 	<!-- Painel principal do formulário -->
@@ -116,47 +215,6 @@
 		</p:panelGrid>
 
 	</p:panel>
-
-
-	<!-- Dialog Filtrar -->
-	<p:dialog header="Filtrar Produtos" widgetVar="dialogFiltrar"
-		modal="true" width="1000" height="600" resizable="false">
-		<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
-			<p:outputLabel for="filtroCampo" value="Campo:" />
-			<p:selectOneMenu id="filtroCampo" style="width: 200px;">
-				<f:selectItem itemLabel="Selecione..." itemValue="" />
-				<f:selectItem itemLabel="Código" itemValue="codigo" />
-				<f:selectItem itemLabel="Descrição" itemValue="descricao" />
-			</p:selectOneMenu>
-
-			<p:outputLabel for="filtroComparacao" value="Comparação:" />
-			<p:selectOneMenu id="filtroComparacao" style="width: 200px;">
-				<f:selectItem itemLabel="Selecione..." itemValue="" />
-				<f:selectItem itemLabel="Igual a" itemValue="igual" />
-				<f:selectItem itemLabel="Contém" itemValue="contem" />
-				<f:selectItem itemLabel="Inicia com" itemValue="inicia" />
-				<f:selectItem itemLabel="Termina com" itemValue="termina" />
-				<f:selectItem itemLabel="Maior que" itemValue="maior" />
-				<f:selectItem itemLabel="Menor que" itemValue="menor" />
-			</p:selectOneMenu>
-
-			<p:outputLabel for="filtroValor" value="Valor:" />
-			<p:inputText id="filtroValor" style="width: 750px;" />
-		</p:panelGrid>
-
-		<p:commandButton value="Aplicar Filtro" update="tabelaProdutos"
-			oncomplete="PF('dialogFiltrar').hide();" />
-
-		<p:spacer width="10" />
-
-		<p:commandButton value="Limpar Filtro" update="tabelaProdutos"
-			oncomplete="PF('dialogFiltrar').hide();" />
-
-		<p:spacer width="10" />
-
-		<p:commandButton value="Cancelar"
-			onclick="PF('dialogFiltrar').hide();" type="button" />
-	</p:dialog>
 
 </h:body>
 </html>
