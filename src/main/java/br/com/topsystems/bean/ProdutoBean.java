@@ -13,53 +13,46 @@ import br.com.topsystems.util.FacesUtil;
 @ViewScoped
 public class ProdutoBean {
 	private Produto produto;
+	private Produto produtoSelecionado;
+	private String termoPesquisa;
+	private Filtro filtro;
 	private List<Produto> listaProduto;
 	private List<Produto> listaProdutoFiltrados;
-	private String acao;
-	private Long id;
-
-	public Produto getProduto() {
-		return produto;
-	}
-
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
-
-	public List<Produto> getListaProduto() {
-		return listaProduto;
-	}
-
-	public void setListaProduto(List<Produto> listaProduto) {
-		this.listaProduto = listaProduto;
-	}
-
-	public List<Produto> getListaProdutoFiltrados() {
-		return listaProdutoFiltrados;
-	}
-
-	public void setListaProdutoFiltrados(List<Produto> listaProdutoFiltrados) {
-		this.listaProdutoFiltrados = listaProdutoFiltrados;
-	}
-
-	public String getAcao() {
-		return acao;
-	}
-
-	public void setAcao(String acao) {
-		this.acao = acao;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+	private boolean exibirFormulario;
+	private boolean modoEdicao;
+	private ProdutoDAO produtoDAO;
 
 	public void novo() {
 		produto = new Produto();
+	}
+
+	public void pesquisar() {
+		try {
+			if (termoPesquisa != null && !termoPesquisa.trim().isEmpty()) {
+				listaProduto = produtoDAO.pesquisarDescricao(termoPesquisa.trim());
+				FacesUtil.adicionarMensagemInfo("Pesquisa realizada");
+			} else {
+				carregarProdutos();
+			}
+		} catch (Exception e) {
+			FacesUtil.adicionarMensagemErro("Erro na pesquisa: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	public void limparPesquisa() {
+		this.termoPesquisa = "";
+		carregarProdutos();
+		FacesUtil.adicionarMensagemInfo("Pesquisa limpa");
+	}
+
+	private void carregarProdutos() {
+		try {
+			listaProduto = produtoDAO.listar();
+		} catch (Exception e) {
+			FacesUtil.adicionarMensagemErro("Erro ao carregar produtos: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public void salvar() {
@@ -100,6 +93,99 @@ public class ProdutoBean {
 			FacesUtil.adicionarMensagemInfo("Produto Editado com Sucesso");
 		} catch (RuntimeException ex) {
 			FacesUtil.adicionarMensagemErro("Erro ao tentar editar um Produto: " + ex.getMessage());
+		}
+	}
+
+	public Produto getProdutoSelecionado() {
+		return produtoSelecionado;
+	}
+
+	public void setProdutoSelecionado(Produto produtoSelecionado) {
+		this.produtoSelecionado = produtoSelecionado;
+	}
+
+	public Filtro getFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(Filtro filtro) {
+		this.filtro = filtro;
+	}
+
+	public boolean isExibirFormulario() {
+		return exibirFormulario;
+	}
+
+	public void setExibirFormulario(boolean exibirFormulario) {
+		this.exibirFormulario = exibirFormulario;
+	}
+
+	public boolean isModoEdicao() {
+		return modoEdicao;
+	}
+
+	public void setModoEdicao(boolean modoEdicao) {
+		this.modoEdicao = modoEdicao;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
+
+	public List<Produto> getListaProduto() {
+		return listaProduto;
+	}
+
+	public void setListaProduto(List<Produto> listaProduto) {
+		this.listaProduto = listaProduto;
+	}
+
+	public List<Produto> getListaProdutoFiltrados() {
+		return listaProdutoFiltrados;
+	}
+
+	public void setListaProdutoFiltrados(List<Produto> listaProdutoFiltrados) {
+		this.listaProdutoFiltrados = listaProdutoFiltrados;
+	}
+
+	public static class Filtro {
+		private String campo;
+		private String comparacao;
+		private String valor;
+
+		public Filtro() {
+			this.campo = "";
+			this.comparacao = "";
+			this.valor = "";
+		}
+
+		// Getters e Setters
+		public String getCampo() {
+			return campo;
+		}
+
+		public void setCampo(String campo) {
+			this.campo = campo;
+		}
+
+		public String getComparacao() {
+			return comparacao;
+		}
+
+		public void setComparacao(String comparacao) {
+			this.comparacao = comparacao;
+		}
+
+		public String getValor() {
+			return valor;
+		}
+
+		public void setValor(String valor) {
+			this.valor = valor;
 		}
 	}
 }

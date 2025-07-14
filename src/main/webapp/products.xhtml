@@ -19,37 +19,55 @@
 				<p:commandButton value="Editar"
 					actionListener="#{produtoBean.editar}" update="@form" />
 
-				<p:commandButton value="Voltar" />
-
-				<p:commandButton value="Confirmar" />
-
-				<p:commandButton value="Primeiro" />
-
-				<p:commandButton value="Anterior" />
-
-				<p:commandButton value="Próximo" />
-
-				<p:commandButton value="Último" />
-
 				<p:commandButton value="Procurar" type="button"
-					outcome="pages/produtoPesquisa.xhtml" update="@form" />
+					onclick="PF('dialogPesquisar').show();" />
 
-				<p:commandButton value="Filtrar"
-					actionListener="#{produtoBean.listaProdutoFiltrados}" />
-
-				<p:commandButton value="Relatório" />
-
-				<p:commandButton value="Form/Grid" />
-
-				<p:commandButton value="Fechar" />
+				<p:commandButton value="Filtrar" type="button"
+					onclick="PF('dialogFiltrar').show();" />
 			</p:toolbarGroup>
 		</p:toolbar>
 	</h:form>
 
 	<p:spacer height="10" />
 
-	<p:dialog header="Procurar Dialog" widgetVar="dlg1" minHeight="40">
-		<h:outputText value="Resistance to PrimeFaces is futile!" />
+
+
+	<!-- Dialog Pesquisar -->
+	<p:dialog header="Pesquisar Produto" widgetVar="dialogPesquisar"
+		modal="true" width="1000" height="650" resizable="false">
+		<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+			<p:outputLabel for="pesquisaDescricao" value="Descrição/Nome:" />
+			<p:inputText id="pesquisaDescricao"
+				placeholder="Digite a descrição para pesquisar..."
+				style="width: 750px;" />
+		</p:panelGrid>
+
+		<p:spacer height="10" />
+
+		<p:commandButton value="Pesquisar"
+			action="#{produtoBean.carregarPesquisa}" update="tabelaProdutos"
+			oncomplete="PF('dialogPesquisar').hide();" />
+
+		<p:spacer width="10" />
+
+		<p:commandButton value="Cancelar"
+			onclick="PF('dialogPesquisar').hide();" type="button" />
+
+		<p:separator />
+
+		<!-- Tabela de Produtos -->
+		<p:dataTable id="tabelaProdutos" value="#{produtoBean.listaProduto}"
+			var="produto" selectionMode="single" rowKey="#{produto.codigo}"
+			emptyMessage="Nenhum produto encontrado" rows="10">
+
+			<p:column headerText="Código" sortBy="#{produto.codigo}">
+				<h:outputText value="#{produto.codigo}" />
+			</p:column>
+
+			<p:column headerText="Descrição" sortBy="#{produto.descricao}">
+				<h:outputText value="#{produto.descricao}" />
+			</p:column>
+		</p:dataTable>
 	</p:dialog>
 
 	<!-- Painel principal do formulário -->
@@ -101,6 +119,49 @@
 		</p:panelGrid>
 
 	</p:panel>
+
+
+	<!-- Dialog Filtrar -->
+	<p:dialog header="Filtrar Produtos" widgetVar="dialogFiltrar"
+		modal="true" width="1000" height="600" resizable="false">
+		<p:panelGrid columns="2" styleClass="ui-panelgrid-blank">
+			<p:outputLabel for="filtroCampo" value="Campo:" />
+			<p:selectOneMenu id="filtroCampo" style="width: 200px;">
+				<f:selectItem itemLabel="Selecione..." itemValue="" />
+				<f:selectItem itemLabel="Código" itemValue="codigo" />
+				<f:selectItem itemLabel="Descrição" itemValue="descricao" />
+			</p:selectOneMenu>
+
+			<p:outputLabel for="filtroComparacao" value="Comparação:" />
+			<p:selectOneMenu id="filtroComparacao" style="width: 200px;">
+				<f:selectItem itemLabel="Selecione..." itemValue="" />
+				<f:selectItem itemLabel="Igual a" itemValue="igual" />
+				<f:selectItem itemLabel="Contém" itemValue="contem" />
+				<f:selectItem itemLabel="Inicia com" itemValue="inicia" />
+				<f:selectItem itemLabel="Termina com" itemValue="termina" />
+				<f:selectItem itemLabel="Maior que" itemValue="maior" />
+				<f:selectItem itemLabel="Menor que" itemValue="menor" />
+			</p:selectOneMenu>
+
+			<p:outputLabel for="filtroValor" value="Valor:" />
+			<p:inputText id="filtroValor" style="width: 750px;" />
+		</p:panelGrid>
+
+		<p:separator />
+
+		<p:commandButton value="Aplicar Filtro" update="tabelaProdutos"
+			oncomplete="PF('dialogFiltrar').hide();" />
+
+		<p:spacer width="10" />
+
+		<p:commandButton value="Limpar Filtro" update="tabelaProdutos"
+			oncomplete="PF('dialogFiltrar').hide();" />
+
+		<p:spacer width="10" />
+
+		<p:commandButton value="Cancelar"
+			onclick="PF('dialogFiltrar').hide();" type="button" />
+	</p:dialog>
 
 </h:body>
 </html>

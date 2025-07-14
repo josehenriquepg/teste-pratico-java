@@ -2,14 +2,24 @@ package br.com.topsystems.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import br.com.topsystems.entity.Produto;
 import br.com.topsystems.util.HibernateUtil;
 
 public class ProdutoDAO {
+
+	private EntityManagerFactory emf;
+
+	public ProdutoDAO() {
+		this.emf = Persistence.createEntityManagerFactory("produtos-pu");
+	}
 
 	public void salvar(Produto produto) {
 		Session sessao = HibernateUtil.getSessionFactory().openSession();
@@ -30,36 +40,30 @@ public class ProdutoDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Produto> listar() {
-		Session sessao = HibernateUtil.getSessionFactory().openSession();
-		List<Produto> produtos = null;
-
+		EntityManager em = emf.createEntityManager();
 		try {
-			Query consulta = sessao.getNamedQuery("Produto.listar");
-			produtos = consulta.list();
-		} catch (RuntimeException ex) {
-			throw ex;
+			Query query = em.createQuery("SELECT p FROM Produto p ORDER BY p.descricao");
+			return query.getResultList();
+		} catch (Exception e) {
+			throw new RuntimeException("Erro ao listar produtos: " + e.getMessage(), e);
 		} finally {
-			sessao.close();
+			em.close();
 		}
-
-		return produtos;
 	}
 
-	public Produto buscar(Long id) {
-		Session sessao = HibernateUtil.getSessionFactory().openSession();
-		Produto produto = null;
-
+	@SuppressWarnings("unchecked")
+	public List<Produto> pesquisarDescricao(String descricao) {
+		EntityManager em = emf.createEntityManager();
 		try {
-			Query consulta = sessao.getNamedQuery("Produto.buscarPorID");
-			consulta.setParameter("id", id);
-			produto = (Produto) consulta.uniqueResult();
-		} catch (RuntimeException ex) {
-			throw ex;
+			Query query = (Query) em.createQuery(
+					"SELECT p FROM Produto p WHERE UPPER(p.descricao) LIKE UPPER(:descricao) ORDER BY p.descricao");
+			query.setParameter("descricao", "%" + descricao + "%");
+			return query.getResultList();
+		} catch (Exception e) {
+			throw new RuntimeException("Erro ao pesquisar produtos: " + e.getMessage(), e);
 		} finally {
-			sessao.close();
+			em.close();
 		}
-
-		return produto;
 	}
 
 	public void excluir(Produto produto) {
